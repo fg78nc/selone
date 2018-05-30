@@ -1,0 +1,12 @@
+{
+	"tc001_imgur_test": [
+		{
+			"rowID": "tc001_imgur_test.01",
+			"description": "Imgur test",
+			"username": "fg78nc@gmail.com",
+			"password": "1234er56ig",
+			"page" : "Log In"
+		}
+	]
+}
+

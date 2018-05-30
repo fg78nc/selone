@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Imgur test">
+	<groups>
+		<run>
+			<include name="IMGUR_TEST"/>
+		</run>
+	</groups>
+	
+	<parameter name="environment" value="local"/>
+	
+	<test name="Imgur Test - Chrome">
+		<parameter name="browser" value="chrome"/>
+		<parameter name="platform" value="mac"/>
+		
+		<classes>
+			<class name="selen.one.framework.utils.ImgurTest" />
+		</classes>
+	</test>
+	
+	<test name="WordPress Test - Firefox">
+		<parameter name="browser" value="firefox"/>
+		<parameter name="platform" value="mac"/>
+		
+		<classes>
+			<class name="selen.one.framework.utils.ImgurTest" />
+		</classes>
+	</test>
+	
+</suite>

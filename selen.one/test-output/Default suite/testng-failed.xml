@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Default test(failed)">
+    <classes>
+      <class name="selen.one.framework.utils.ImgurTest">
+        <methods>
+          <include name="testTeardown"/>
+          <include name="testMethodSetup"/>
+          <include name="tc001_imgur_test" invocation-numbers="0"/>
+          <include name="suiteTeardown"/>
+          <include name="testMethodTearDown"/>
+          <include name="setupTest"/>
+          <include name="testClassTeardown"/>
+          <include name="suiteSetup"/>
+          <include name="testClassSetup"/>
+        </methods>
+      </class> <!-- selen.one.framework.utils.ImgurTest -->
+    </classes>
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
