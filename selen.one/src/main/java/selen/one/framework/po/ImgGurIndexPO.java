@@ -1,21 +1,13 @@
 package selen.one.framework.po;
 
-import java.io.File;
+import static org.testng.Assert.assertTrue;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import selen.one.framework.utils.BrowserCommands;
 import selen.one.framework.utils.GlobalVars;
-import selen.one.framework.utils.SeleniumThreadSafeWebDriver;
 
 public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 
@@ -84,27 +76,27 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 
 	public void navigateToImages() {
 		BrowserCommands.waitUntilElementIsClickable(this.userAccountButton, GlobalVars.TIMEOUT_TEN_SECONDS);
-		Actions actions = new Actions(SeleniumThreadSafeWebDriver.getInstance().getDriver());
-		actions.moveToElement(this.userAccountButton).perform();
-
+		BrowserCommands.hoverOverElement(this.userAccountButton);
 		BrowserCommands.waitUntilElementIsClickable(this.userImagesButton, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.userImagesButton.click();
 	}
 
 	public void postNewImage() {
-
-		String img = "https://i.imgur.com/7k5Icld.jpg";
-
+		By imageAddedAlert = By.cssSelector("#FlipInfo-Container > div > span");
 		BrowserCommands.waitUntilElementIsClickable(this.imgCount, GlobalVars.TIMEOUT_TEN_SECONDS);
 		int prevImgCount = Integer.parseInt(this.imgCount.getText());
-		System.out.println("Image count " + prevImgCount);
 
 		BrowserCommands.waitUntilElementIsClickable(this.newPostButton, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.newPostButton.click();
 
 		BrowserCommands.waitUntilElementIsClickable(this.uploadImageDropBox, GlobalVars.TIMEOUT_TEN_SECONDS);
-		this.uploadImageDropBox.sendKeys(img);
-
+		this.uploadImageDropBox.sendKeys("https://i.imgur.com/7k5Icld.jpg");
+		
+		BrowserCommands.waitUntilElementIsPresent(imageAddedAlert, GlobalVars.TIMEOUT_TEN_SECONDS);
+		this.navigateToImages();
+		
+		int currentImgCount = Integer.parseInt(this.imgCount.getText());
+		assertTrue(currentImgCount - prevImgCount == 1);
 	}
 
 	

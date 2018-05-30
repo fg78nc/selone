@@ -19,6 +19,12 @@ public final class BrowserCommands {
 		wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(locator)));
 	}
 	
+	public static void waitUntilElementIsPresent(By locator, long timeOutInSeconds) {
+		WebDriver driver = SeleniumThreadSafeWebDriver.getInstance().getDriver();
+		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		wait.until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(locator)));
+	}
+	
 	public static void waitUntilElementIsClickable(WebElement element, long timeOutInSeconds) {
 		WebDriver driver = SeleniumThreadSafeWebDriver.getInstance().getDriver();
 		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
@@ -40,7 +46,7 @@ public final class BrowserCommands {
 	public static void waitUntilPageIsLoaded(long timeOutInSeconds) {
 		WebDriver driver = SeleniumThreadSafeWebDriver.getInstance().getDriver();
 		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
-		String script = "(()=>{while(true){if(document.readyState==='complete') return '';}})();";
+		String script = "(()=>{while(true){if(window.document.readyState==='complete') return ' ';}})();";
 		wait.until(ExpectedConditions.refreshed(ExpectedConditions.jsReturnsValue(script)));
 	}
 	
@@ -61,11 +67,12 @@ public final class BrowserCommands {
 		}
 	}
 
-	public static void hoverOverElement(WebElement userAccountButton) {
+	public static void hoverOverElement(WebElement element) {
 		WebDriver driver = SeleniumThreadSafeWebDriver.getInstance().getDriver();
 		Actions builder = new Actions(driver);
-		builder.moveToElement(userAccountButton).build().perform();
+		builder.moveToElement(element).build().perform();
 		WebDriverWait wait = new WebDriverWait(driver, GlobalVars.TIMEOUT_TEN_SECONDS);
+		wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(element)));
 	}
 	
 }

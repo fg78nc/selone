@@ -101,7 +101,7 @@ public class ImgurTest {
 		
 	}
 	
-	@Test(dataProvider="dataFromJSON" , dataProviderClass=JSONDataProvider.class, enabled=true, priority=1, groups="IMGUR_TEST")
+	@Test(dataProvider="dataFromJSON" , dataProviderClass=JSONDataProvider.class, enabled=true, priority=1, groups="IMGUR_TEST", invocationCount=1)
 	public void tc001_imgur_test(String rowID, String description, JSONObject testData) {
 		
 		indexPO.navigateTo(GlobalVars.BASE_URL);
@@ -109,5 +109,6 @@ public class ImgurTest {
 		indexPO.signIn(testData.get("username").toString(), testData.get("password").toString());
 		indexPO.navigateToImages();
 		indexPO.postNewImage();
+		
 	}
 }
