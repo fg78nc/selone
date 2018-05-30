@@ -49,7 +49,7 @@ public final class SeleniumThreadSafeWebDriver {
 			
 			chromePrefs.put("credentials_enable_service", false);
 			chromePrefs.put("profile.password_manager_enabled", false);
-			// chromeOpt.addArguments("--disable-popup-blocking");
+			chromeOpt.addArguments("--disable-popup-blocking");
 			
 			extraCaps.setCapability(ChromeOptions.CAPABILITY, chromeOpt);
 			extraCaps.setCapability("applicationCacheEnabled", false);
@@ -83,11 +83,11 @@ public final class SeleniumThreadSafeWebDriver {
 		this.platform.set(platform);
 		
 		System.out.println("\n -=[ TEST ENV: "
-		+ "|" + this.getBrowser() 
-		+ "|" + this.getSessionId()
-		+ "|" + this.getPlatform()
-		+ "|" + this.setEnvironment
-		+ "|Selenium rev:" + props.getProperty("selenium.version")
+		+ "| " + this.getBrowser() 
+		+ "| " + this.getSessionId()
+		+ "| " + this.getPlatform()
+		+ "| " + this.setEnvironment
+		+ "| Selenium rev:" + props.getProperty("selenium.version")
 		);
 		
 		this.getDriver().manage().timeouts().implicitlyWait(IMPLICIT_TIMEOUT, TimeUnit.SECONDS);

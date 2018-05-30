@@ -19,7 +19,7 @@
 		</classes>
 	</test>
 	
-	<test name="WordPress Test - Firefox">
+	<test name="Imgur Test - Firefox">
 		<parameter name="browser" value="firefox"/>
 		<parameter name="platform" value="mac"/>
 		

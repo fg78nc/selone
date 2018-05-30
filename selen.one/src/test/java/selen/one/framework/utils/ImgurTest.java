@@ -1,6 +1,6 @@
 package selen.one.framework.utils;
 
-import static org.testng.Assert.assertEquals;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
@@ -103,11 +103,11 @@ public class ImgurTest {
 	
 	@Test(dataProvider="dataFromJSON" , dataProviderClass=JSONDataProvider.class, enabled=true, priority=1, groups="IMGUR_TEST")
 	public void tc001_imgur_test(String rowID, String description, JSONObject testData) {
+		
 		indexPO.navigateTo(GlobalVars.BASE_URL);
 		indexPO.matchPageTitle("Imgur: The magic of the Internet");
 		indexPO.signIn(testData.get("username").toString(), testData.get("password").toString());
-		indexPO.navigateToUserImages();
-		
-
+		indexPO.navigateToImages();
+		indexPO.postNewImage();
 	}
 }
