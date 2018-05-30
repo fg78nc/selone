@@ -82,7 +82,7 @@ public final class SeleniumThreadSafeWebDriver {
 		this.version.set(extraCaps.getVersion());
 		this.platform.set(platform);
 		
-		System.out.println("\n -=[ TEST ENV: "
+		System.out.println("\n ### TEST ENV: "
 		+ "| " + this.getBrowser() 
 		+ "| " + this.getSessionId()
 		+ "| " + this.getPlatform()

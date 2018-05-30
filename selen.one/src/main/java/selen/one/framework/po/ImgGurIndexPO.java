@@ -1,21 +1,24 @@
 package selen.one.framework.po;
 
-import static org.testng.Assert.assertTrue;
+import java.util.ArrayList;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import selen.one.framework.utils.BrowserCommands;
 import selen.one.framework.utils.GlobalVars;
+import selen.one.framework.utils.SeleniumThreadSafeWebDriver;
 
 public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 
-	private String PAGE_TITLE = "IMGGUR_INDEX";
 	public static final String PAGE_URL = "https://imgur.com/";
+	private int prevImgCount, currImgCount;
 
-	// @FindBy(css = "#front-page-beta > div.BetaSignUp-link > a")
-	// protected T betaSignUpPopUP;
+	@FindBy(css = "#front-page-beta > div.BetaSignUp-link > a")
+	protected T betaSignUpPopUP;
 
 	@FindBy(css = "#secondary-nav > ul > li.signin-link > a")
 	protected T logInButton;
@@ -44,6 +47,9 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 	@FindBy(css = "#content > div.left > div > div:nth-child(3) > h2 > span.total-images")
 	protected T imgCount;
 
+	@FindBy(css = "#secondary-nav > ul > li.account > div.user-dropdown-container > div > form > button")
+	protected T signOutButton;
+	
 	public ImgGurIndexPO() {
 		super();
 		this.setURL(PAGE_URL);
@@ -61,9 +67,16 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 	}
 
 	public void signIn(String username, String password) {
-		// if (betaSignUpPopUP != null && betaSignUpPopUP.isDisplayed()) {
-		// betaSignUpPopUP.click();
-		// }
+		try {
+			if (betaSignUpPopUP.isDisplayed() && betaSignUpPopUP.isEnabled()) {
+				BrowserCommands.waitUntilElementIsClickable(betaSignUpPopUP, GlobalVars.TIMEOUT_TEN_SECONDS);
+				betaSignUpPopUP.click();
+			}
+		} catch (NoSuchElementException e) {
+			System.out.println("### NSEO");
+		}
+		
+		
 		BrowserCommands.waitUntilElementIsClickable(this.logInButton, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.logInButton.click();
 		BrowserCommands.waitUntilElementIsClickable(this.usernameField, GlobalVars.TIMEOUT_TEN_SECONDS);
@@ -76,7 +89,7 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 
 	public void navigateToImages() {
 		BrowserCommands.waitUntilElementIsClickable(this.userAccountButton, GlobalVars.TIMEOUT_TEN_SECONDS);
-		BrowserCommands.hoverOverElement(this.userAccountButton);
+		BasePageObject.hoverOverElement(this.userAccountButton);
 		BrowserCommands.waitUntilElementIsClickable(this.userImagesButton, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.userImagesButton.click();
 	}
@@ -84,7 +97,7 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 	public void postNewImage() {
 		By imageAddedAlert = By.cssSelector("#FlipInfo-Container > div > span");
 		BrowserCommands.waitUntilElementIsClickable(this.imgCount, GlobalVars.TIMEOUT_TEN_SECONDS);
-		int prevImgCount = Integer.parseInt(this.imgCount.getText());
+		this.prevImgCount = Integer.parseInt(this.imgCount.getText());
 
 		BrowserCommands.waitUntilElementIsClickable(this.newPostButton, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.newPostButton.click();
@@ -92,12 +105,22 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 		BrowserCommands.waitUntilElementIsClickable(this.uploadImageDropBox, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.uploadImageDropBox.sendKeys("https://i.imgur.com/7k5Icld.jpg");
 		
-		BrowserCommands.waitUntilElementIsPresent(imageAddedAlert, GlobalVars.TIMEOUT_TEN_SECONDS);
+		BrowserCommands.waitUntilElementIsPresentByLocating(imageAddedAlert, GlobalVars.TIMEOUT_TEN_SECONDS);
 		this.navigateToImages();
 		
-		int currentImgCount = Integer.parseInt(this.imgCount.getText());
-		assertTrue(currentImgCount - prevImgCount == 1);
+		this.currImgCount = Integer.parseInt(this.imgCount.getText());
 	}
 
+	public void signOut() {
+		BrowserCommands.waitUntilElementIsClickable(this.userAccountButton, GlobalVars.TIMEOUT_TEN_SECONDS);
+		BasePageObject.hoverOverElement(this.userAccountButton);
+		BrowserCommands.waitUntilElementIsClickable(this.signOutButton, GlobalVars.TIMEOUT_TEN_SECONDS);
+		this.signOutButton.click();
+		
+	}
+	
+	public boolean imgCountIncreasedByOne() {
+		return this.currImgCount - this.prevImgCount == 1;
+	}
 	
 }

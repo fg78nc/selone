@@ -1,4 +1,4 @@
-package selen.one.framework.utils;
+package selen.one.framework.utils.dataproviders;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class JSONDataProvider {
 				retVal[i] = new Object[] { rowID, description, testDataList.get(i) };
 			}
 		} catch ( IndexOutOfBoundsException e) {
-			retVal = new Object[0][];
+			retVal = new Object[0][0];
 			e.printStackTrace();
 		}
 //		Arrays.deepToString(retVal);

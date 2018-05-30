@@ -7,7 +7,7 @@
         <methods>
           <include name="testTeardown"/>
           <include name="testMethodSetup"/>
-          <include name="tc001_imgur_test" invocation-numbers="0"/>
+          <include name="tc001_imgur_test" invocation-numbers="0 0"/>
           <include name="suiteTeardown"/>
           <include name="testMethodTearDown"/>
           <include name="setupTest"/>

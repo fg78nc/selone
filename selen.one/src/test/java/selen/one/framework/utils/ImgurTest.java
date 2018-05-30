@@ -1,10 +1,10 @@
 package selen.one.framework.utils;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import static org.testng.Assert.assertTrue;
 
 import org.json.simple.JSONObject;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
  */
 
 import selen.one.framework.po.ImgGurIndexPO;
+import selen.one.framework.utils.dataproviders.JSONDataProvider;
 
 public class ImgurTest {
 	private ImgGurIndexPO<WebElement> indexPO = null;
@@ -56,13 +57,7 @@ public class ImgurTest {
 								@Optional String includePattern,
 								@Optional String excludePattern,
 								ITestContext ctx) throws Exception {
-		if (includePattern != null ) {
-			System.setProperty("includePattern", includePattern);
-		}
-		if (excludePattern != null ) {
-			System.setProperty("excludePattern", excludePattern);
-		}
-		
+		System.out.println("### Setting env...");
 		GlobalVars.defaultBrowser = System.getProperty("browser", browser);
 		GlobalVars.defaultPlatform = System.getProperty("platform", platform);
 		
@@ -88,12 +83,13 @@ public class ImgurTest {
 		SeleniumThreadSafeWebDriver.getInstance().closeDriver();
 	}
 	
-	@AfterMethod(alwaysRun = true, enabled = true)
+	@AfterMethod(alwaysRun = false, enabled = false)
 	protected void testMethodTearDown(ITestResult result) {
-		WebDriver driver = SeleniumThreadSafeWebDriver.getInstance().getDriver();
-		if (!driver.getCurrentUrl().contains(ImgGurIndexPO.PAGE_URL)){
-			indexPO.navigateTo(ImgGurIndexPO.PAGE_URL);
-		}
+		System.out.println("Quiting...");
+		SeleniumThreadSafeWebDriver.getInstance().getDriver().quit();
+//		if (!driver.getCurrentUrl().contains(ImgGurIndexPO.PAGE_URL)){
+//			indexPO.navigateTo(ImgGurIndexPO.PAGE_URL);
+//		}
 	}
 	
 	@AfterClass(alwaysRun = false, enabled = false)
@@ -101,7 +97,7 @@ public class ImgurTest {
 		
 	}
 	
-	@Test(dataProvider="dataFromJSON" , dataProviderClass=JSONDataProvider.class, enabled=true, priority=1, groups="IMGUR_TEST", invocationCount=1)
+	@Test(dataProvider="dataFromJSON" , dataProviderClass=JSONDataProvider.class, enabled=true, priority=1, groups="IMGUR_TEST", invocationCount=2)
 	public void tc001_imgur_test(String rowID, String description, JSONObject testData) {
 		
 		indexPO.navigateTo(GlobalVars.BASE_URL);
@@ -109,6 +105,10 @@ public class ImgurTest {
 		indexPO.signIn(testData.get("username").toString(), testData.get("password").toString());
 		indexPO.navigateToImages();
 		indexPO.postNewImage();
+		indexPO.signOut();
+		indexPO.clearCookies();
+		indexPO.refreshPage();
+		assertTrue(indexPO.imgCountIncreasedByOne());
 		
 	}
 }
