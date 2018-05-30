@@ -79,6 +79,5 @@ public class ImgGurIndexPO<T extends WebElement> extends BasePageObject<T> {
 		this.uploadImageDropBox.sendKeys("/Users/fg/eclipse-workspace/selen.one/src/main/resources/vang.jpg");
 		
 		
-		
 	}
 }

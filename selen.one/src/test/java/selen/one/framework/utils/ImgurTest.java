@@ -108,8 +108,6 @@ public class ImgurTest {
 		indexPO.signIn(testData.get("username").toString(), testData.get("password").toString());
 		indexPO.navigateToUserImages();
 		
-//		Actions action = new Actions(webdriver);
-//		WebElement we = webdriver.findElement(By.xpath("//html/body/div[13]/ul/li[4]/a"));
-//		action.moveToElement(we).build().perform();
+
 	}
 }
